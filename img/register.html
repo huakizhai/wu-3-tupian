@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 栖宠港湾</title>
+    <style>
+        :root {
+            --dark-brown: #6B5858;
+            --light-pink: #E8D3D3;
+            --cream-white: #FAF7F3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: var(--cream-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(107, 88, 88, 0.1);
+            padding: 3rem;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--dark-brown);
+            margin-bottom: 0.5rem;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            color: var(--dark-brown);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .qr-section {
+            text-align: center;
+            padding: 2rem;
+            background: var(--cream-white);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+
+        .qr-placeholder {
+            width: 220px;
+            height: 220px;
+            background: white;
+            border: 2px dashed var(--light-pink);
+            border-radius: 12px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .qr-placeholder img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+        }
+
+        .qr-placeholder .placeholder-text {
+            color: #999;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .qr-tip {
+            color: var(--dark-brown);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .qr-notice {
+            color: #999;
+            font-size: 0.85rem;
+            padding: 0.8rem 1.2rem;
+            background: var(--light-pink);
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--light-pink);
+        }
+
+        .divider span {
+            padding: 0 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-brown);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--light-pink);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--dark-brown);
+            box-shadow: 0 0 0 3px rgba(107, 88, 88, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--dark-brown);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #5a4848;
+            transform: translateY(-2px);
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .back-link a {
+            color: var(--dark-brown);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">栖宠港湾</div>
+            <h1 class="title">注册账号</h1>
+            <p class="subtitle">加入我们，开启领养之旅</p>
+        </div>
+
+        <!-- 微信扫码区域 -->
+        <div class="qr-section">
+            <div class="qr-placeholder">
+                <div class="placeholder-text">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="3" height="3"/>
+                        <rect x="18" y="14" width="3" height="3"/>
+                        <rect x="14" y="18" width="3" height="3"/>
+                        <rect x="18" y="18" width="3" height="3"/>
+                    </svg>
+                    <div style="margin-top: 0.5rem;">微信扫码注册</div>
+                </div>
+            </div>
+            <p class="qr-tip">使用微信扫描二维码快速注册</p>
+            <div class="qr-notice">⚠️ 正式部署后端后启用扫码注册</div>
+        </div>
+
+        <div class="divider"><span>或使用邮箱注册</span></div>
+
+        <div class="success-message" id="success-message">
+            注册成功！即将跳转首页...
+        </div>
+
+        <form id="register-form">
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" id="username" placeholder="请输入用户名">
+            </div>
+
+            <div class="form-group">
+                <label for="email">邮箱地址</label>
+                <input type="email" id="email" placeholder="your@email.com">
+            </div>
+
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" placeholder="请输入密码（至少6位）">
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">确认密码</label>
+                <input type="password" id="confirm-password" placeholder="请再次输入密码">
+            </div>
+
+            <button type="button" class="submit-btn" onclick="handleRegister()">立即注册</button>
+        </form>
+
+        <div class="back-link">
+            <a href="index.html">← 返回登录</a>
+        </div>
+    </div>
+
+    <script>
+        function handleRegister() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (!username) {
+                alert('请输入用户名');
+                return;
+            }
+            if (!email || !email.includes('@')) {
+                alert('请输入正确的邮箱地址');
+                return;
+            }
+            if (!password || password.length < 6) {
+                alert('密码长度至少6位');
+                return;
+            }
+            if (password !== confirmPassword) {
+                alert('两次密码输入不一致');
+                return;
+            }
+
+            // 显示成功消息
+            document.getElementById('success-message').style.display = 'block';
+            
+            // 2秒后跳转
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

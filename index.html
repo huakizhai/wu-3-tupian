@@ -1,0 +1,2297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>栖宠港湾 - 流浪宠物领养平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        :root {
+            --dark-brown: #6B5858;
+            --light-pink: #E8D3D3;
+            --cream-white: #FAF7F3;
+        }
+
+        body {
+            background-color: var(--cream-white);
+            color: var(--dark-brown);
+            line-height: 1.6;
+        }
+
+        /* 导航栏 */
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(107, 88, 88, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 3rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--dark-brown);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-brown);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--dark-brown);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--dark-brown);
+        }
+
+        .login-btn {
+            background-color: var(--dark-brown);
+            color: white;
+            padding: 0.6rem 1.8rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+
+        .login-btn:hover {
+            background-color: #5a4a4a;
+        }
+
+        /* 页面容器 */
+        .page-container {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        section {
+            display: none;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        /* 首页 */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6rem 3rem;
+            background: linear-gradient(135deg, var(--cream-white) 0%, #F5EEE6 100%);
+        }
+
+        .hero-text {
+            flex: 1;
+            padding-right: 4rem;
+        }
+
+        .hero-badge {
+            background-color: var(--light-pink);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-brown);
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.15rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.8;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--dark-brown);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            display: inline-block;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #5a4a4a;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--dark-brown);
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--dark-brown);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-block;
+            font-size: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--dark-brown);
+            color: white;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 550px;
+            height: 450px;
+            border-radius: 25px;
+            object-fit: cover;
+            box-shadow: 0 15px 40px rgba(107, 88, 88, 0.15);
+        }
+
+        .hero-stats {
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            background-color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(107, 88, 88, 0.1);
+        }
+
+        .hero-stats .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark-brown);
+        }
+
+        .hero-stats .label {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* 我们的影响力 */
+        .influence-section {
+            padding: 6rem 3rem;
+            text-align: center;
+            background-color: white;
+        }
+
+        .influence-section h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .influence-section .subtitle {
+            opacity: 0.7;
+            margin-bottom: 4rem;
+        }
+
+        .influence-cards {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .influence-card {
+            background-color: white;
+            padding: 2.5rem 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(107, 88, 88, 0.08);
+            text-align: center;
+            min-width: 200px;
+            transition: transform 0.3s;
+        }
+
+        .influence-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .influence-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .influence-card:nth-child(1) .influence-icon {
+            background-color: var(--light-pink);
+        }
+
+        .influence-card:nth-child(2) .influence-icon {
+            background-color: #FFE4E1;
+        }
+
+        .influence-card:nth-child(3) .influence-icon {
+            background-color: #F5E6D3;
+        }
+
+        .influence-card:nth-child(4) .influence-icon {
+            background-color: #E8D3D3;
+        }
+
+        .influence-card .number {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--dark-brown);
+            margin-bottom: 0.5rem;
+        }
+
+        .influence-card .label {
+            font-size: 0.95rem;
+            opacity: 0.7;
+        }
+
+        /* 功能卡片 */
+        .features {
+            padding: 6rem 3rem;
+            background-color: var(--cream-white);
+        }
+
+        .features h2 {
+            font-size: 2rem;
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(107, 88, 88, 0.08);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(107, 88, 88, 0.12);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .feature-card:nth-child(1) .feature-icon {
+            background-color: var(--light-pink);
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background-color: #FFE4E1;
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            background-color: #F5E6D3;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--dark-brown);
+        }
+
+        .feature-card p {
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .feature-card a {
+            color: var(--dark-brown);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-card a:hover {
+            gap: 1rem;
+        }
+
+        /* CTA区域 */
+        .cta {
+            background-color: var(--dark-brown);
+            color: white;
+            padding: 6rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            width: 300px;
+            height: 300px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .cta::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta .btn-secondary {
+            color: white;
+            border-color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta .btn-secondary:hover {
+            background-color: white;
+            color: var(--dark-brown);
+        }
+
+        /* 宠物领养区 */
+        .adopt-section {
+            padding: 4rem 3rem;
+        }
+
+        .adopt-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .pet-filters {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background-color: white;
+            border: 2px solid var(--light-pink);
+            color: var(--dark-brown);
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--dark-brown);
+            border-color: var(--dark-brown);
+            color: white;
+        }
+
+        .pet-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .pet-card {
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(107, 88, 88, 0.08);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .pet-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(107, 88, 88, 0.12);
+        }
+
+        .pet-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .pet-info {
+            padding: 1.2rem;
+        }
+
+        .pet-name {
+            font-weight: bold;
+            font-size: 1.15rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark-brown);
+        }
+
+        .pet-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .pet-tag {
+            background-color: var(--light-pink);
+            color: var(--dark-brown);
+            padding: 0.4rem 0.9rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+
+        /* 领养流程 - 时间线样式 */
+        .process-section {
+            padding: 4rem 3rem;
+        }
+
+        .process-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* 时间线容器 */
+        .timeline-container {
+            max-width: 900px;
+            margin: 0 auto 4rem;
+            position: relative;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--light-pink);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            display: flex;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(107, 88, 88, 0.06);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .timeline-content:hover, .timeline-content.active {
+            box-shadow: 0 8px 25px rgba(107, 88, 88, 0.12);
+            transform: translateY(-3px);
+        }
+
+        .timeline-content.active {
+            border: 1px solid var(--dark-brown);
+            background-color: rgba(107, 88, 88, 0.03);
+        }
+
+        .timeline-number {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--dark-brown);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            z-index: 1;
+        }
+
+        .timeline-content.active + .timeline-number,
+        .timeline-content.active ~ .timeline-number {
+            background-color: var(--light-pink);
+            color: var(--dark-brown);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark-brown);
+        }
+
+        .timeline-content p {
+            opacity: 0.7;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .process-detail {
+            background-color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(107, 88, 88, 0.08);
+            margin-bottom: 4rem;
+        }
+
+        .process-detail h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-brown);
+        }
+
+        .process-detail ul {
+            list-style: none;
+        }
+
+        .process-detail li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--light-pink);
+            font-size: 1rem;
+        }
+
+        .process-detail li:last-child {
+            border-bottom: none;
+        }
+
+        .faq-section {
+            margin-top: 4rem;
+        }
+
+        .faq-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .faq-item {
+            background-color: white;
+            border-radius: 15px;
+            margin-bottom: 1.2rem;
+            overflow: hidden;
+        }
+
+        .faq-header {
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background-color: rgba(107, 88, 88, 0.03);
+        }
+
+        .faq-header:hover {
+            background-color: rgba(107, 88, 88, 0.06);
+        }
+
+        .faq-header span:first-child {
+            font-weight: 600;
+        }
+
+        .faq-icon {
+            font-size: 1rem;
+            transition: transform 0.3s;
+            color: var(--dark-brown);
+        }
+
+        .faq-icon.rotate {
+            transform: rotate(180deg);
+        }
+
+        .faq-content {
+            padding: 1.2rem 1.5rem;
+            display: none;
+            background-color: white;
+        }
+
+        .faq-content.active {
+            display: block;
+        }
+
+        /* 成功故事页面改进 */
+        .stories-section {
+            padding: 4rem 3rem;
+        }
+
+        .stories-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            text-align: center;
+        }
+
+        .stories-section .subtitle {
+            text-align: center;
+            opacity: 0.7;
+            margin-bottom: 4rem;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .story-card {
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(107, 88, 88, 0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .story-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(107, 88, 88, 0.12);
+        }
+
+        .story-card.full-width {
+            grid-column: span 2;
+            display: flex;
+            min-height: 220px;
+        }
+
+        .story-card.full-width img {
+            width: 45%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-card.full-width .story-info {
+            padding: 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(135deg, #FAF7F3 0%, white 100%);
+        }
+
+        .story-card.full-width .story-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .story-card.full-width .story-desc {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-card.has-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .story-card.no-image {
+            padding: 1.8rem;
+            background: linear-gradient(135deg, #FAF7F3 0%, white 100%);
+        }
+
+        .story-info {
+            padding: 1.5rem;
+        }
+
+        .story-badge {
+            display: inline-block;
+            background-color: var(--light-pink);
+            color: var(--dark-brown);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .story-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark-brown);
+            line-height: 1.4;
+        }
+
+        .story-desc {
+            opacity: 0.7;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .story-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            opacity: 0.6;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(107, 88, 88, 0.1);
+        }
+
+        .story-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .story-arrow {
+            color: var(--dark-brown);
+            opacity: 0.5;
+            font-size: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .story-card:hover .story-arrow {
+            transform: translateX(5px);
+            opacity: 0.8;
+        }
+
+        /* 分享故事区域 */
+        .share-story {
+            margin-top: 4rem;
+            padding: 4rem;
+            background-color: white;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .share-story h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .share-story p {
+            opacity: 0.7;
+            margin-bottom: 2rem;
+        }
+
+        /* 捐赠页面 */
+        .donate-section {
+            padding: 4rem 3rem;
+        }
+
+        .donate-hero {
+            background-color: var(--dark-brown);
+            color: white;
+            padding: 5rem 3rem;
+            border-radius: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .donate-hero-text {
+            flex: 1;
+        }
+
+        .donate-badge {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .donate-hero-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .donate-hero-text p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .donate-hero-image {
+            position: relative;
+        }
+
+        .donate-hero-image img {
+            width: 350px;
+            height: 300px;
+            border-radius: 20px;
+            object-fit: cover;
+        }
+
+        .donate-stats {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            background-color: white;
+            color: var(--dark-brown);
+            padding: 1.2rem 1.8rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(107, 88, 88, 0.1);
+        }
+
+        .donate-stats .icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--light-pink);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 捐赠页面按钮特殊样式 */
+        .donate-hero .btn-secondary {
+            color: white;
+            border: 2px solid white;
+            background-color: transparent;
+        }
+
+        .donate-hero .btn-secondary:hover {
+            background-color: white;
+            color: var(--dark-brown);
+        }
+
+        .donate-hero .btn-primary {
+            border: 2px solid white;
+        }
+
+        .donate-stats .number {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .donate-stats .label {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* 影响力统计 */
+        .donate-influence {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .donate-influence h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .donate-influence .subtitle {
+            opacity: 0.7;
+            margin-bottom: 3rem;
+        }
+
+        /* 捐赠选项 */
+        .donation-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .donation-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(107, 88, 88, 0.08);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+
+        .donation-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--light-pink);
+        }
+
+        .donation-card.selected {
+            border-color: var(--dark-brown);
+            background-color: rgba(107, 88, 88, 0.03);
+        }
+
+        .donation-amount {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--dark-brown);
+            margin-bottom: 0.5rem;
+        }
+
+        .donation-card p {
+            opacity: 0.7;
+        }
+
+        .custom-amount {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(107, 88, 88, 0.08);
+            text-align: center;
+        }
+
+        .custom-amount input {
+            padding: 1rem;
+            width: 250px;
+            border: 2px solid var(--light-pink);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-right: 1rem;
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: var(--dark-brown);
+            color: white;
+            padding: 4rem 3rem;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .footer-section p {
+            opacity: 0.8;
+            line-height: 1.7;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-section a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            opacity: 0.8;
+        }
+
+        /* 弹窗 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 550px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            color: var(--dark-brown);
+        }
+
+        .close-btn {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark-brown);
+            opacity: 0.7;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid var(--light-pink);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--dark-brown);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: var(--dark-brown);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #5a4a4a;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .success-message {
+            display: none;
+            background-color: #D4EDDA;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        /* 登录弹窗特殊样式 */
+        .login-modal-container {
+            display: flex;
+            width: 90%;
+            max-width: 900px;
+            background-color: white;
+            border-radius: 25px;
+            overflow: hidden;
+        }
+
+        .login-image-side {
+            flex: 1;
+            background: linear-gradient(135deg, var(--dark-brown) 0%, #7a6a6a 100%);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .login-image-side img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-image-side h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-image-side p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        .login-form-side {
+            flex: 1;
+            padding: 3rem;
+        }
+
+        .login-options {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-login-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid var(--light-pink);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .social-login-btn:hover {
+            background-color: rgba(107, 88, 88, 0.05);
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .remember-me input {
+            width: auto;
+        }
+
+        .forgot-password {
+            text-align: right;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .forgot-password a {
+            color: var(--dark-brown);
+            text-decoration: none;
+        }
+
+        /* 宠物详情弹窗 */
+        .pet-detail-content {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .pet-detail-image img {
+            width: 220px;
+            height: 220px;
+            border-radius: 18px;
+            object-fit: cover;
+        }
+
+        .pet-detail-info {
+            flex: 1;
+        }
+
+        .pet-detail-info h3 {
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
+            color: var(--dark-brown);
+        }
+
+        .pet-detail-info p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .pet-detail-tags {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        /* 故事详情弹窗 */
+        #story-detail-content img {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        #story-detail-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark-brown);
+        }
+
+        #story-detail-content .story-meta {
+            opacity: 0.6;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        #story-detail-content p {
+            line-height: 1.8;
+            opacity: 0.85;
+        }
+
+        /* 捐赠成功弹窗 */
+        #donate-modal .modal {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        #donate-modal .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text {
+                padding-right: 0;
+                margin-bottom: 3rem;
+            }
+
+            .hero-image img {
+                max-width: 450px;
+            }
+
+            .influence-cards {
+                gap: 2rem;
+            }
+
+            .pet-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .story-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .story-card.full-width {
+                grid-column: span 2;
+            }
+
+            .donation-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .donate-hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .donate-hero-image {
+                margin-top: 2rem;
+            }
+
+            .timeline-container::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+                padding-left: 60px;
+            }
+
+            .timeline-content {
+                width: 100%;
+            }
+
+            .timeline-number {
+                left: 30px;
+                top: 20px;
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .feature-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pet-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .login-modal-container {
+                flex-direction: column;
+            }
+
+            .login-image-side {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .influence-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .influence-card {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .feature-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .pet-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .story-card.full-width {
+                grid-column: span 1;
+                flex-direction: column;
+            }
+
+            .story-card.full-width img {
+                width: 100%;
+                height: 180px;
+            }
+
+            .donation-options {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pet-detail-content {
+                flex-direction: column;
+            }
+
+            .pet-detail-image img {
+                width: 100%;
+            }
+
+            .custom-amount input {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+
+            .timeline-container::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                padding-left: 50px;
+            }
+
+            .timeline-number {
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">栖宠港湾</div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active" onclick="navigateTo('home')">首页</a></li>
+                <li><a href="#adopt" onclick="navigateTo('adopt')">宠物领养</a></li>
+                <li><a href="#process" onclick="navigateTo('process')">领养流程</a></li>
+                <li><a href="#stories" onclick="navigateTo('stories')">成功故事</a></li>
+                <li><a href="#donate" onclick="navigateTo('donate')">爱心捐赠</a></li>
+            </ul>
+            <a href="#login" class="login-btn" onclick="openModal('login-modal')">登录/注册</a>
+        </div>
+    </nav>
+
+    <!-- 页面内容 -->
+    <div class="page-container">
+        <!-- 首页 -->
+        <section id="home" class="active">
+            <div class="hero">
+                <div class="hero-text">
+                    <span class="hero-badge">让爱回家</span>
+                    <h1>遇见你的最佳伙伴</h1>
+                    <p>每一个小生命都值得被爱。在栖宠港湾，我们帮助流浪动物找到它们梦想中的家，让爱与温暖延续。</p>
+                    <div class="hero-buttons">
+                        <a href="#adopt" class="btn-primary" onclick="navigateTo('adopt')">开始领养</a>
+                        <a href="#process" class="btn-secondary" onclick="navigateTo('process')">了解更多</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="./img/banner_dog.jpg" alt="可爱的宠物们">
+                    <div class="hero-stats">
+                        <div class="number">500+</div>
+                        <div class="label">宠物正在寻找新家</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="influence-section">
+                <h2>我们的影响力</h2>
+                <p class="subtitle">每一个数字背后都是一个被改变的生命</p>
+                <div class="influence-cards">
+                    <div class="influence-card">
+                        <div class="influence-icon">🐾</div>
+                        <div class="number">1,240</div>
+                        <div class="label">已救助动物</div>
+                    </div>
+                    <div class="influence-card">
+                        <div class="influence-icon">❤️</div>
+                        <div class="number">3,568</div>
+                        <div class="label">爱心捐赠者</div>
+                    </div>
+                    <div class="influence-card">
+                        <div class="influence-icon">🏠</div>
+                        <div class="number">892</div>
+                        <div class="label">成功领养</div>
+                    </div>
+                    <div class="influence-card">
+                        <div class="influence-icon">👥</div>
+                        <div class="number">156</div>
+                        <div class="label">志愿者</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features">
+                <h2>开始你的领养之旅</h2>
+                <div class="feature-cards">
+                    <div class="feature-card" onclick="navigateTo('adopt')">
+                        <div class="feature-icon">🐾</div>
+                        <h3>领养一个灵魂</h3>
+                        <p>浏览我们的居民画廊，它们正期待着属于自己的永远港湾，等待着与你相遇。</p>
+                        <a href="#adopt" onclick="navigateTo('adopt')">探索画廊 →</a>
+                    </div>
+                    <div class="feature-card" onclick="navigateTo('donate')">
+                        <div class="feature-icon">❤️</div>
+                        <h3>支持我们的使命</h3>
+                        <p>你的捐助直接惠及我们照看下的每一个小生命，帮助它们获得更好的生活。</p>
+                        <a href="#donate" onclick="navigateTo('donate')">立即捐赠 →</a>
+                    </div>
+                    <div class="feature-card" onclick="navigateTo('stories')">
+                        <div class="feature-icon">📖</div>
+                        <h3>分享你的故事</h3>
+                        <p>加入我们不断成长的幸福大家庭，分享你的领养旅程，传递温暖与爱。</p>
+                        <a href="#stories" onclick="navigateTo('stories')">阅读故事 →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta">
+                <h2>准备好开始了吗？</h2>
+                <p>你未来的伙伴正在等待你的第一声问候。今天就开始这段旅程，改变一个生命，也丰富你的生活。</p>
+                <div style="display: flex; gap: 1.5rem; justify-content: center;">
+                    <a href="#adopt" class="btn-secondary" onclick="navigateTo('adopt')">寻找宠物</a>
+                    <a href="#apply" class="btn-primary" onclick="openModal('adopt-modal')">立即申请</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 宠物领养区 -->
+        <section id="adopt" class="adopt-section">
+            <h2>寻找你的新伙伴</h2>
+            <div class="pet-filters">
+                <button class="filter-btn active" onclick="filterPets('all')">全部</button>
+                <button class="filter-btn" onclick="filterPets('dog')">狗狗</button>
+                <button class="filter-btn" onclick="filterPets('cat')">猫咪</button>
+                <button class="filter-btn" onclick="filterPets('small')">小宠</button>
+                <button class="filter-btn" onclick="filterPets('senior')">老年宠物</button>
+            </div>
+            <div class="pet-grid" id="pet-grid">
+                <!-- 宠物卡片将通过JS生成 -->
+            </div>
+        </section>
+
+        <!-- 领养流程 - 时间线样式 -->
+        <section id="process" class="process-section">
+            <h2>领养流程</h2>
+            <div class="timeline-container" id="timeline-container">
+                <!-- 时间线内容将通过JS生成 -->
+            </div>
+            <div class="process-detail" id="process-detail">
+                <!-- 流程详情将通过JS生成 -->
+            </div>
+
+            <div class="faq-section">
+                <h2>常见问题</h2>
+                <div class="faq-item" onclick="toggleFaq(0)">
+                    <div class="faq-header">
+                        <span>领养需要什么条件？</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-content">
+                        <p>领养条件包括：年满18周岁、有稳定的住所和收入、能够提供良好的生活环境。部分宠物可能有特殊要求，详情请查看宠物档案。</p>
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(1)">
+                    <div class="faq-header">
+                        <span>领养费用是多少？</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-content">
+                        <p>领养费用为200-500元不等，用于覆盖疫苗、绝育、驱虫等基本医疗费用。老年宠物和特殊宠物可能有优惠。</p>
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(2)">
+                    <div class="faq-header">
+                        <span>可以领养多只宠物吗？</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-content">
+                        <p>可以的！如果您有足够的空间和精力照顾多只宠物，我们非常欢迎。请在申请时说明您的计划。</p>
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(3)">
+                    <div class="faq-header">
+                        <span>如果无法继续照顾宠物怎么办？</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-content">
+                        <p>如果您由于特殊原因无法继续照顾宠物，请务必联系我们。我们承诺终身接收我们领养出去的宠物，绝不会让它们再次流浪。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 成功故事 -->
+        <section id="stories" class="stories-section">
+            <h2>成功故事</h2>
+            <p class="subtitle">每一个故事都是一段温暖的旅程。看看这些幸福的家庭如何通过领养改变了彼此的生活。</p>
+            <div class="story-grid" id="story-grid">
+                <!-- 故事卡片将通过JS生成 -->
+            </div>
+
+            <div class="share-story">
+                <h3>分享你的故事</h3>
+                <p>如果你也有领养故事想要分享，欢迎投稿给我们</p>
+                <button class="btn-primary" style="border-radius: 12px;">分享故事</button>
+            </div>
+        </section>
+
+        <!-- 捐赠页面 -->
+        <section id="donate" class="donate-section">
+            <div class="donate-hero">
+                <div class="donate-hero-text">
+                    <span class="donate-badge">您的影响力至关重要</span>
+                    <h2>支持它们的康复之旅</h2>
+                    <p>您的每一份贡献都在推动我们避难所的使命：为有需要的毛孩子们提供医疗护理、营养膳食和安全的港湾。</p>
+                    <div class="hero-buttons">
+                        <button class="btn-secondary" onclick="openModal('donate-modal')">立即捐赠</button>
+                        <a href="#stories" class="btn-primary" onclick="navigateTo('stories')">查看成功故事</a>
+                    </div>
+                </div>
+                <div class="donate-hero-image">
+                    <img src="./img/shouyang.jpg" alt="可爱的宠物" onerror="this.src='https://via.placeholder.com/350x300'">
+                    <div class="donate-stats">
+                        <div class="icon">🐾</div>
+                        <div class="number">1,240+</div>
+                        <div class="label">仅今年一年，您的善举就拯救了这么多小生命</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="donate-influence">
+                <h2>我们的影响力</h2>
+                <p class="subtitle">每一个数字背后都是一个被改变的生命</p>
+                <div class="influence-cards">
+                    <div class="influence-card">
+                        <div class="influence-icon">🐾</div>
+                        <div class="number">1,240</div>
+                        <div class="label">已救助动物</div>
+                    </div>
+                    <div class="influence-card">
+                        <div class="influence-icon">❤️</div>
+                        <div class="number">3,568</div>
+                        <div class="label">爱心捐赠者</div>
+                    </div>
+                    <div class="influence-card">
+                        <div class="influence-icon">🏠</div>
+                        <div class="number">892</div>
+                        <div class="label">成功领养</div>
+                    </div>
+                    <div class="influence-card">
+                        <div class="influence-icon">👥</div>
+                        <div class="number">156</div>
+                        <div class="label">志愿者</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="donation-options">
+                <div class="donation-card" onclick="openPay(50)">
+                    <div class="donation-amount">¥50</div>
+                    <p>一顿丰盛的大餐</p>
+                </div>
+                <div class="donation-card" onclick="openPay(100)">
+                    <div class="donation-amount">¥100</div>
+                    <p>疫苗接种</p>
+                </div>
+                <div class="donation-card" onclick="openPay(200)">
+                    <div class="donation-amount">¥200</div>
+                    <p>绝育手术</p>
+                </div>
+                <div class="donation-card" onclick="openPay(500)">
+                    <div class="donation-amount">¥500</div>
+                    <p>月度口粮</p>
+                </div>
+            </div>
+
+            <div class="custom-amount">
+                <input type="number" id="userMoney" placeholder="自定义金额">
+                <button class="btn-primary" onclick="customPay()">确认捐赠</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>栖宠港湾</h4>
+                <p>为流浪动物寻找温暖的家，让爱延续，让生命绽放。我们致力于为每一个小生命创造美好的未来。</p>
+            </div>
+            <div class="footer-section">
+                <h4>关于我们</h4>
+                <ul>
+                    <li><a href="#home" onclick="navigateTo('home')">关于栖宠港湾</a></li>
+                    <li><a href="#stories" onclick="navigateTo('stories')">成功故事</a></li>
+                    <li><a href="#adopt" onclick="navigateTo('adopt')">志愿者招募</a></li>
+                    <li><a href="#contact">联系我们</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>领养服务</h4>
+                <ul>
+                    <li><a href="#adopt" onclick="navigateTo('adopt')">宠物领养</a></li>
+                    <li><a href="#process" onclick="navigateTo('process')">领养流程</a></li>
+                    <li><a href="#" onclick="openModal('adopt-modal')">领养协议</a></li>
+                    <li><a href="#process" onclick="navigateTo('process')">常见问题</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>支持我们</h4>
+                <ul>
+                    <li><a href="#donate" onclick="navigateTo('donate')">爱心捐赠</a></li>
+                    <li><a href="#">成为志愿者</a></li>
+                    <li><a href="#">企业合作</a></li>
+                    <li><a href="#">物资捐赠</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 栖宠港湾 - 流浪宠物领养平台 | 让每一个生命都被温柔以待</p>
+        </div>
+    </footer>
+
+    <!-- 登录弹窗 -->
+    <div class="modal-overlay" id="login-modal">
+        <div class="login-modal-container">
+            <div class="login-image-side">
+                <img src="./img/logo.jpg" alt="欢迎回到栖宠港湾" onerror="this.src='https://via.placeholder.com/300x250'">
+                <h3>欢迎回到栖宠港湾</h3>
+                <p>继续你的领养之旅</p>
+            </div>
+            <div class="login-form-side">
+                <div class="modal-header">
+                    <span class="modal-title">登录</span>
+                    <span class="close-btn" onclick="closeModal('login-modal')">×</span>
+                </div>
+                <div class="success-message" id="login-success">登录成功！</div>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label>邮箱地址</label>
+                        <input type="email" id="login-username" placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>密码</label>
+                        <input type="password" id="login-password" placeholder="请输入密码">
+                    </div>
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember-me">
+                        <label for="remember-me">记住我</label>
+                    </div>
+                    <div class="forgot-password">
+                        <a href="forgetpwd.html">忘记密码?</a>
+                    </div>
+                    <button type="button" class="submit-btn" onclick="handleLogin()">登录</button>
+                </form>
+                <p style="text-align: center; margin: 1.5rem 0; opacity: 0.7;">还没有账号？<a href="register.html" style="color: var(--dark-brown);">立即注册</a></p>
+                <div class="login-options">
+                    <a href="https://www.google.com" class="social-login-btn" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
+                        <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                        Google
+                    </a>
+                    <a href="https://www.facebook.com" class="social-login-btn" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
+                        <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        Facebook
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 领养申请表弹窗 -->
+    <div class="modal-overlay" id="adopt-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">领养申请表</span>
+                <span class="close-btn" onclick="closeModal('adopt-modal')">×</span>
+            </div>
+            <div class="success-message" id="adopt-success">申请提交成功！我们会尽快联系您。</div>
+            <form id="adopt-form">
+                <div class="form-group">
+                    <label>姓名 *</label>
+                    <input type="text" id="adopt-name" placeholder="请输入您的姓名">
+                </div>
+                <div class="form-group">
+                    <label>联系电话 *</label>
+                    <input type="tel" id="adopt-phone" placeholder="请输入联系电话">
+                </div>
+                <div class="form-group">
+                    <label>邮箱</label>
+                    <input type="email" id="adopt-email" placeholder="请输入邮箱地址">
+                </div>
+                <div class="form-group">
+                    <label>年龄 *</label>
+                    <input type="number" id="adopt-age" placeholder="请输入您的年龄">
+                </div>
+                <div class="form-group">
+                    <label>职业 *</label>
+                    <input type="text" id="adopt-job" placeholder="请输入您的职业">
+                </div>
+                <div class="form-group">
+                    <label>居住地址 *</label>
+                    <textarea id="adopt-address" placeholder="请输入详细居住地址"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>住房类型 *</label>
+                    <select id="adopt-housing">
+                        <option value="">请选择住房类型</option>
+                        <option value="apartment">公寓</option>
+                        <option value="house">独栋住宅</option>
+                        <option value="rented">租赁房</option>
+                        <option value="other">其他</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>是否有养宠经验？ *</label>
+                    <select id="adopt-experience">
+                        <option value="">请选择</option>
+                        <option value="yes">有</option>
+                        <option value="no">没有</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>领养动机 *</label>
+                    <textarea id="adopt-reason" placeholder="请简要说明您的领养动机"></textarea>
+                </div>
+                <button type="button" class="submit-btn" onclick="handleAdoptSubmit()">提交申请</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 宠物详情弹窗 -->
+    <div class="modal-overlay" id="pet-detail-modal">
+        <div class="modal" style="max-width: 650px;">
+            <div class="modal-header">
+                <span class="modal-title">宠物详情</span>
+                <span class="close-btn" onclick="closeModal('pet-detail-modal')">×</span>
+            </div>
+            <div class="pet-detail-content" id="pet-detail-content">
+                <!-- 宠物详情内容将通过JS生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 故事详情弹窗 -->
+    <div class="modal-overlay" id="story-detail-modal">
+        <div class="modal" style="max-width: 650px;">
+            <div class="modal-header">
+                <span class="modal-title">故事详情</span>
+                <span class="close-btn" onclick="closeModal('story-detail-modal')">×</span>
+            </div>
+            <div id="story-detail-content">
+                <!-- 故事详情内容将通过JS生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 捐赠提示弹窗 -->
+    <div class="modal-overlay" id="donate-modal">
+        <div class="modal">
+            <div class="success-icon">❤️</div>
+            <h3>感谢您的爱心！</h3>
+            <p id="donate-amount-display"></p>
+            <p style="margin-top: 1rem; opacity: 0.8;">您的善款将用于改善流浪动物的生活，让它们感受到温暖与关爱。</p>
+            <button class="submit-btn" onclick="closeModal('donate-modal')">确认</button>
+        </div>
+    </div>
+
+    <script>
+        // 宠物数据
+        const pets = [
+            { id: 1, name: '旺财', type: 'dog', age: '2岁', gender: '公', size: '中型', status: '可领养', description: '性格温顺，喜欢撒娇，是个粘人精。曾经被主人遗弃，现在渴望找到一个温暖的家。', image: './img/wangcai1.jpg', tags: ['狗狗', '中型', '活泼'] },
+            { id: 2, name: '花花', type: 'cat', age: '1岁', gender: '母', size: '小型', status: '可领养', description: '优雅的小公主，喜欢安静地晒太阳。虽然有点高冷，但熟悉后会非常亲近人。', image: './img/huahua.jpg', tags: ['猫咪', '小型', '安静'] },
+            { id: 3, name: '豆豆', type: 'dog', age: '3岁', gender: '公', size: '大型', status: '可领养', description: '忠诚的守护者，体型较大但性格温顺。喜欢户外运动，适合有院子的家庭。', image: './img/doudou.jpg', tags: ['狗狗', '大型', '忠诚'] },
+            { id: 4, name: '咪咪', type: 'cat', age: '4岁', gender: '母', size: '小型', status: '可领养', description: '温柔的大姐姐，已经绝育。喜欢安静，适合陪伴老人或上班族。', image: './img/mimi.jpg', tags: ['猫咪', '小型', '温顺'] },
+            { id: 5, name: '球球', type: 'small', age: '1岁', gender: '公', size: '迷你', status: '可领养', description: '活泼可爱的仓鼠宝宝，喜欢跑轮和嗑瓜子。不需要太多空间，适合小户型。', image: './img/qiuqiu.jpg', tags: ['小宠', '迷你', '活泼'] },
+            { id: 6, name: '旺财', type: 'dog', age: '7岁', gender: '公', size: '中型', status: '可领养', description: '老年狗狗，性格沉稳，喜欢安静。希望能在晚年找到一个温暖的家安享余生。', image: './img/wangcai2.jpg', tags: ['狗狗', '中型', '温顺'] },
+            { id: 7, name: '橘子', type: 'cat', age: '2岁', gender: '公', size: '小型', status: '可领养', description: '橘猫一枚，性格开朗，能吃能睡。是个暖心的陪伴者。', image: './img/juzi.jpg', tags: ['猫咪', '小型', '活泼'] },
+            { id: 8, name: '小黑', type: 'dog', age: '1岁', gender: '母', size: '中型', status: '可领养', description: '黑亮的毛发，聪明伶俐。喜欢和人互动，是个运动健将。', image: './img/xiaohei.jpg', tags: ['狗狗', '中型', '聪明'] },
+            { id: 9, name: '纯情', type: 'small', age: '无龄', gender: '摆件', size: '中型', status: '可领养', description: '性格腼腆乖巧，四肢可随意弯折摆弄，长相清新翠绿。没有野外生存戾气，温顺不爱乱动，盼一位温柔主人收留陪伴。', image: './img/mantis.jpg', tags: ['小宠', '摆件', '温顺'] },
+            { id: 10, name: '火辣辣', type: 'small', age: '成虫', gender: '雌雄', size: '小型', status: '慎领养', description: '性子活泼好动、警觉机敏，夜行好动胆子大，适应力超强。偏爱暗处四处穿梭，自带火爆小脾气，不适合居家饲养。', image: './img/huolala.jpg', tags: ['小宠', '成虫', '活泼'] },
+            { id: 11, name: '尿尿', type: 'small', age: '1岁', gender: '公', size: '小型', status: '可领养', description: '软萌佛系，戴着小猪头套慵懒爱趴窝，胆子软软的容易受惊紧张。标志性小毛病一害怕就随地尿尿，不爱折腾，日常吃饱晒背就满足，盼细心包容的主人好好照料。', image: './img/turtle.jpg', tags: ['小宠', '乌龟', '佛系'] },
+            { id: 12, name: '小豆泥', type: 'cat', age: '8月龄', gender: '母', size: '小型', status: '可领养', description: '脸蛋重点色，蓝汪汪大眼，毛色软糯顺滑。天生粘人爱唠嗑，时刻跟在主人身边不停喵喵撒娇，怕冷爱贴被窝，温顺懂事，渴望专属铲屎官陪伴。', image: './img/cat.jpg', tags: ['猫咪', '暹罗', '粘人'] }
+        ];
+
+        // 故事数据
+        const stories = [
+            { id: 1, title: '阿金告别流浪', image: './img/dog1.jpg', badge: '阿金', author: '张女士', date: '2024-01-15', description: '阿金曾常年在街边流浪，风吹日晒居无定所，送入救助站调养半年后，顺利被铲屎官领养，如今每日悠闲相伴。', fullContent: '阿金曾常年在街边流浪，风吹日晒居无定所，生活十分艰难。后来被好心人发现并送入救助站，在专业人员的照顾下调养了半年时间，身体逐渐恢复健康。\n\n经过一段时间的康复，张女士来到救助站，一眼就看中了阿金。她说："看到它的眼睛，我就知道它需要一个温暖的家。"如今，阿金已经适应了新生活，每日悠闲相伴，再也不用为食物和住所担心。' },
+            { id: 2, title: '墨墨的暖心小家', image: './img/cat1.jpg', badge: '墨墨', author: '李先生', date: '2024-02-20', description: '墨墨依靠捡拾剩饭存活许久，被小区居民救助，上班族领养回家，从此三餐安稳，拥有专属小窝。', fullContent: '墨墨是一只曾经在外漂泊的猫咪，依靠捡拾剩饭存活许久，生活十分艰辛。小区居民发现它后，联系了救助站进行安置。\n\n经过一段时间的照顾，墨墨变得健康活泼。李先生是一位上班族，平时工作忙碌但一直想养一只猫咪陪伴自己。在看到墨墨的故事后，他决定给它一个温暖的家。现在墨墨三餐安稳，拥有专属小窝，每天都会在家门口等待主人归来。' },
+            { id: 3, title: '来福与元宝结伴安家', image: './img/dog2.jpg', badge: '来福 & 元宝', author: '王女士', date: '2024-03-08', description: '两只幼犬一同流浪相依为命，机缘之下被同一家庭收养，整日嬉戏相伴，彻底告别漂泊。', fullContent: '来福和元宝是两只在街头流浪的幼犬，它们相依为命，互相陪伴度过了许多艰难的日子。它们一起寻找食物，一起躲避危险，建立了深厚的友谊。\n\n机缘之下，它们被同一家庭收养。王女士看到它们的故事后非常感动，决定给它们一个完整的家。现在来福和元宝整日嬉戏相伴，在院子里尽情奔跑，彻底告别了漂泊的生活。' },
+            { id: 4, title: '老墩儿的幸福晚年', image: './img/dog3.jpg', badge: '老墩儿', author: '陈爷爷', date: '2025-01-28', description: '高龄老犬因年纪大无人领养，热心老人带回照料，三餐精细喂养，安稳度过晚年生活。', fullContent: '老墩儿是一只高龄老犬，因为年纪大的原因，在救助站一直没有找到愿意领养的家庭。很多人都觉得年纪大的狗狗不好照顾，不愿意给它一个机会。\n\n就在大家为老墩儿的未来担忧时，热心的陈爷爷出现了。他说："年纪大的狗狗更需要关爱，让我来照顾它吧。"从此，陈爷爷每天三餐精细喂养，陪伴老墩儿散步晒太阳。老墩儿在陈爷爷的照料下，安稳地度过了幸福的晚年生活。' },
+            { id: 5, title: '小缺从自卑到治愈', image: './img/cat2.jpg', badge: '小缺', author: '赵小姐', date: '2025-02-14', description: '先天短尾被弃养，博主收养后日常记录生活，慢慢收获喜爱，摆脱曾经的胆怯孤僻。', fullContent: '小缺是一只先天短尾的猫咪，因为这个特殊的外形，它曾经被前主人遗弃。来到救助站后，小缺表现得十分胆怯，总是躲在角落里不敢与人互动。\n\n一位博主在了解到小缺的故事后，决定收养它并给它一个充满爱的家。博主每天记录小缺的日常生活，分享它的点点滴滴。渐渐地，小缺收获了许多网友的喜爱，也慢慢摆脱了曾经的胆怯孤僻，变得活泼开朗起来。' },
+            { id: 6, title: '三只糯糯找到归宿', image: './img/cat3.jpg', badge: '糯糯三小只', author: '刘女士', date: '2025-03-20', description: '纸箱弃养的三只奶猫，在救助站断奶驱虫后，分别被三位爱心人士接走，各自开启新生活。', fullContent: '三只奶猫被遗弃在纸箱里，被发现时它们还很小，需要特别的照顾。救助站的工作人员将它们带回站内，进行断奶和驱虫处理，精心照料它们健康成长。\n\n在三只糯糯长大后，它们分别被三位爱心人士领养。现在，三只小家伙各自拥有了自己的新家和爱它们的主人，开启了幸福的新生活。' }
+        ];
+
+        // 流程步骤数据
+        const processSteps = [
+            { 
+                title: '浏览宠物', 
+                subtitle: '探索我们的宠物画廊',
+                details: [
+                    '浏览我们网站上的宠物档案',
+                    '了解每只宠物的性格特点和需求',
+                    '可以按品种、年龄、性别筛选',
+                    '点击宠物卡片查看详细信息'
+                ]
+            },
+            { 
+                title: '提交申请', 
+                subtitle: '填写领养申请表',
+                details: [
+                    '填写个人基本信息',
+                    '提供居住环境描述',
+                    '说明养宠经验',
+                    '阐述领养动机',
+                    '提交申请等待审核'
+                ]
+            },
+            { 
+                title: '家访审核', 
+                subtitle: '我们会进行家访评估',
+                details: [
+                    '工作人员会联系您预约家访',
+                    '评估居住环境是否适合养宠',
+                    '确认您有足够的时间和精力',
+                    '解答您关于领养的疑问',
+                    '告知审核结果'
+                ]
+            },
+            { 
+                title: '迎接新成员', 
+                subtitle: '完成领养手续',
+                details: [
+                    '签署领养协议',
+                    '缴纳领养费用',
+                    '领取宠物用品礼包',
+                    '了解宠物喂养注意事项',
+                    '带着新伙伴回家'
+                ]
+            }
+        ];
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPets('all');
+            renderStories();
+            renderTimeline();
+            showStep(0);
+            
+            // 检测URL hash，如果是#login则打开登录弹窗
+            if (window.location.hash === '#login') {
+                openModal('login-modal');
+            }
+        });
+
+        // 导航切换
+        function navigateTo(pageId) {
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`.nav-links a[href="#${pageId}"]`)?.classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 渲染宠物卡片
+        function renderPets(filter) {
+            const petGrid = document.getElementById('pet-grid');
+            const filteredPets = filter === 'all' ? pets : pets.filter(pet => pet.type === filter || (filter === 'senior' && parseInt(pet.age) >= 5));
+            
+            petGrid.innerHTML = filteredPets.map(pet => `
+                <div class="pet-card" onclick="showPetDetail(${pet.id})">
+                    <img src="${pet.image}" alt="${pet.name}" onerror="this.src='https://via.placeholder.com/300x220'">
+                    <div class="pet-info">
+                        <div class="pet-name">${pet.name}</div>
+                        <div class="pet-tags">
+                            ${pet.tags.map(tag => `<span class="pet-tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 筛选宠物
+        function filterPets(type) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderPets(type);
+        }
+
+        // 显示宠物详情
+        function showPetDetail(petId) {
+            const pet = pets.find(p => p.id === petId);
+            if (pet) {
+                document.getElementById('pet-detail-content').innerHTML = `
+                    <div class="pet-detail-image">
+                        <img src="${pet.image}" alt="${pet.name}" onerror="this.src='https://via.placeholder.com/220x220'">
+                    </div>
+                    <div class="pet-detail-info">
+                        <h3>${pet.name}</h3>
+                        <div class="pet-detail-tags">
+                            <span class="pet-tag">${pet.age}</span>
+                            <span class="pet-tag">${pet.gender}</span>
+                            <span class="pet-tag">${pet.size}</span>
+                            <span class="pet-tag">${pet.status}</span>
+                        </div>
+                        <p>${pet.description}</p>
+                        <button class="btn-primary" style="margin-top: 1rem;" onclick="openModal('adopt-modal')">申请领养</button>
+                    </div>
+                `;
+                openModal('pet-detail-modal');
+            }
+        }
+
+        // 渲染故事卡片
+        function renderStories() {
+            const storyGrid = document.getElementById('story-grid');
+            storyGrid.innerHTML = stories.map((story, index) => {
+                const cardClass = index === 0 ? 'story-card full-width' : story.image ? 'story-card has-image' : 'story-card no-image';
+                return `
+                    <div class="${cardClass}" onclick="showStoryDetail(${story.id})">
+                        ${story.image ? `<img src="${story.image}" alt="${story.title}" onerror="this.style.display='none'">` : ''}
+                        <div class="story-info">
+                            <span class="story-badge">${story.badge}</span>
+                            <h3 class="story-title">${story.title}</h3>
+                            <p class="story-desc">${story.description}</p>
+                            <div class="story-footer">
+                                <span class="story-author">${story.author} · ${story.date}</span>
+                                <span class="story-arrow">→</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 显示故事详情
+        function showStoryDetail(storyId) {
+            const story = stories.find(s => s.id === storyId);
+            if (story) {
+                document.getElementById('story-detail-content').innerHTML = `
+                    ${story.image ? `<img src="${story.image}" alt="${story.title}" onerror="this.style.display='none'">` : ''}
+                    <h3>${story.title}</h3>
+                    <div class="story-meta">${story.author} · ${story.date}</div>
+                    <p>${story.fullContent.replace(/\\n/g, '<br><br>')}</p>
+                `;
+                openModal('story-detail-modal');
+            }
+        }
+
+        // 渲染时间线
+        function renderTimeline() {
+            const timelineContainer = document.getElementById('timeline-container');
+            timelineContainer.innerHTML = processSteps.map((step, index) => `
+                <div class="timeline-item">
+                    <div class="timeline-content ${index === 0 ? 'active' : ''}" onclick="showStep(${index})">
+                        <h3>${step.title}</h3>
+                        <p>${step.subtitle}</p>
+                    </div>
+                    <div class="timeline-number">${index + 1}</div>
+                </div>
+            `).join('');
+        }
+
+        // 显示步骤详情
+        function showStep(index) {
+            const contents = document.querySelectorAll('.timeline-content');
+            contents.forEach((content, i) => {
+                content.classList.toggle('active', i === index);
+            });
+
+            const step = processSteps[index];
+            document.getElementById('process-detail').innerHTML = `
+                <h3>${step.title}</h3>
+                <ul>
+                    ${step.details.map(detail => `<li>${detail}</li>`).join('')}
+                </ul>
+            `;
+        }
+
+        // FAQ切换
+        function toggleFaq(index) {
+            const faqContents = document.querySelectorAll('.faq-content');
+            const faqIcons = document.querySelectorAll('.faq-icon');
+            
+            faqContents.forEach((content, i) => {
+                content.classList.toggle('active', i === index && !content.classList.contains('active'));
+                if (i !== index) content.classList.remove('active');
+            });
+            
+            faqIcons.forEach((icon, i) => {
+                icon.classList.toggle('rotate', i === index && faqContents[index].classList.contains('active'));
+                if (i !== index) icon.classList.remove('rotate');
+            });
+        }
+
+        // 打开弹窗
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 关闭弹窗
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // 选择捐赠金额
+        function selectDonation(element, amount) {
+            document.querySelectorAll('.donation-card').forEach(card => card.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('donate-amount-display').textContent = `您选择捐赠 ¥${amount}`;
+            openModal('donate-modal');
+        }
+
+        // 自定义捐赠
+        function donateCustom() {
+            const amount = document.getElementById('custom-amount').value;
+            if (amount && parseInt(amount) > 0) {
+                document.getElementById('donate-amount-display').textContent = `您选择捐赠 ¥${amount}`;
+                openModal('donate-modal');
+            } else {
+                alert('请输入有效的金额');
+            }
+        }
+
+        // 处理登录
+        function handleLogin() {
+            document.getElementById('login-success').classList.add('active');
+            setTimeout(() => {
+                closeModal('login-modal');
+                document.getElementById('login-success').classList.remove('active');
+            }, 2000);
+        }
+
+        // 处理领养申请提交
+        function handleAdoptSubmit() {
+            document.getElementById('adopt-success').classList.add('active');
+            setTimeout(() => {
+                closeModal('adopt-modal');
+                document.getElementById('adopt-success').classList.remove('active');
+                document.getElementById('adopt-form').reset();
+            }, 2000);
+        }
+
+        // 显示注册（模拟）
+        function showRegister() {
+            alert('注册功能即将开放，敬请期待！');
+        }
+
+        function openPay(num){
+          document.getElementById('payModal').style.display='block'
+          document.querySelector('#tipText span').innerText = num
+        }
+        function closePay(){
+          document.getElementById('payModal').style.display='none'
+        }
+        function customPay(){
+          let m = document.getElementById('userMoney').value
+          if(m<=0||isNaN(m)){alert('请输入有效金额');return}
+          openPay(m)
+        }
+    </script>
+    <style>
+    .pay-box{display:none;position:fixed;top:30%;left:50%;transform:translate(-50%);background:#fff;padding:20px;border-radius:8px;z-index:9999}
+    .close{cursor:pointer;margin-top:10px;padding:4px 12px;background:#ccc;border:none;border-radius:4px;}
+    </style>
+
+    <div class="pay-box" id="payModal">
+      <p id="tipText">请微信扫码，付款：¥<span></span></p>
+      <img src="./img/pay_qr.jpg" width="220">
+      <button class="close" onclick="closePay()">关闭</button>
+    </div>
+
+    <p style="font-size:12px;color:#666;margin-top:30px;text-align:center;">本页面为个人流浪动物爱心自愿捐赠，资金全部用于宠物救助，非商品交易</p>
+</body>
+</html>
